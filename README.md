@@ -1,6 +1,8 @@
 
 # COH_RL - City of Heroes Bot Development
 
+![City of Heroes](https://i.ytimg.com/vi/QAbetA5BUEI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBolyQEmrYb_n5A53rNNFk0TOyqWw)
+
 Bots to fight crime! Reinforcement learning approaches to playing COH in a semi-open world using computer vision and automated input control.
 
 ## Overview
