@@ -53,12 +53,14 @@ print(f"Experience: {stats['experience']}%")
 COH_BOT/
 ├── __init__.py
 ├── player_movement.py    # Character movement and navigation
-└── game_state.py        # Screenshot analysis and stat monitoring
+├── game_state.py        # Screenshot analysis and stat monitoring
+└── player_attacks.py    # Combat abilities and attack chains
 
 tests/
 ├── __init__.py
 ├── test_player_movement.py
-└── test_game_state.py
+├── test_game_state.py
+└── test_player_attacks.py
 ```
 
 ## Safety Considerations
@@ -83,6 +85,32 @@ movement.circle_strafe_target(radius=10, duration=5.0)
 movement.kite_enemy(distance=15)
 ```
 
+### Attack System
+```python
+from COH_BOT import player_attacks
+
+# Initialize attack controller
+attacks = player_attacks.AttackController()
+
+# Use individual abilities (hotkeys 1-9)
+attacks.use_ability(1)  # Use ability on hotkey 1
+attacks.use_ability(5)  # Use ability on hotkey 5
+
+# Execute predefined attack chains
+attacks.execute_attack_chain('basic_combo')    # Basic 3-hit combo
+attacks.execute_attack_chain('power_combo')    # High damage combo
+attacks.execute_attack_chain('aoe_combo')      # Area of effect attacks
+
+# Quick access methods
+attacks.burst_combo()      # Highest damage combo
+attacks.aoe_clear()        # Clear multiple enemies
+attacks.emergency_attack() # Quick emergency sequence
+
+# Custom attack sequences
+custom_sequence = [(1, 1.2), (3, 1.8), (6, 3.0)]  # (ability, wait_time)
+attacks.custom_attack_sequence(custom_sequence)
+```
+
 ### Game State Monitoring
 ```python
 # Monitor player vitals
@@ -92,6 +120,33 @@ while True:
         movement.retreat()
     if stats['endurance'] < 20:
         movement.rest()
+```
+
+### Combat Integration
+```python
+# Complete combat loop
+from COH_BOT import player_movement, game_state, player_attacks
+
+movement = player_movement.MovementController()
+monitor = game_state.GameStateMonitor()
+attacks = player_attacks.AttackController()
+
+# Combat sequence
+while True:
+    stats = monitor.get_player_stats()
+    
+    if stats['health'] < 20:
+        movement.retreat()
+        break
+    elif stats['endurance'] < 30:
+        movement.rest()
+    else:
+        # Target and attack enemies
+        attacks.target_and_attack('tab', 'basic_combo')
+        
+        # Use AoE if multiple enemies detected
+        if monitor.detect_enemy_target():
+            attacks.smart_attack_selection(enemy_count=3)
 ```
 
 ## Development

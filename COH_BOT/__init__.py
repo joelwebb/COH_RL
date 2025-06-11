@@ -8,8 +8,9 @@ computer vision and input control.
 
 from . import player_movement
 from . import game_state
+from . import player_attacks
 
 __version__ = "1.0.0"
 __author__ = "COH_RL Team"
 
-__all__ = ["player_movement", "game_state"]
+__all__ = ["player_movement", "game_state", "player_attacks"]
